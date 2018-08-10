@@ -1,24 +1,51 @@
 version: '3'
 services:
-      sonarr:
+    sonarr:
         image: linuxserver/sonarr
         container_name: sonarr
         ports: 
             - "8989:8989"
+        volumes:
+            - /home/root/configs/sonarr:/config
+            - /mnt/tvshows:/tv
+            - /mnt/downloads:/downloads
         environment:
+            - TZ=ZA          
             - PGID=1000
             - PUID=1000
-            - VIRTUAL_PORT=8989
-
-      plex:
+    plex:
         image: linuxserver/plex
         container_name: plex
         ports: 
             - "32400:32400"
+        volumes:
+            - /home/root/configs/plex:/config
+            - /mnt/movies:/movies
         environment:
-            - VERSION=latest
+            - TZ=ZA          
             - PGID=1000
             - PUID=1000
+    deluge:
+        image: linuxserver/deluge
+        container_name: deluge
+        ports: 
+            - "8112:8112"
+        volumes:
+            - /home/root/configs/deluge:/config
+            - /mnt/downloads:/downloads
+        environment:
+            - TZ=ZA          
+            - PGID=1000
+            - PUID=1000
+    #   plex:
+    #     image: linuxserver/plex
+    #     container_name: plex
+    #     ports: 
+    #         - "32400:32400"
+    #     environment:
+    #         - /etc/localtime:/etc/localtime:ro
+    #         - PGID=1000
+    #         - PUID=1000
 
       # radarr:
       #   image: linuxserver/radarr
